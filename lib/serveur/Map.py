@@ -54,7 +54,7 @@ class Map:
 
     def modifyMap(self,i,j,c):
 
-        line = self.map_data(i)
+        line = self.map_data[i]
         map_l = list(self.map_data)
         line_l = list(line)
         line_l[j] = c

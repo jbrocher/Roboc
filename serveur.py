@@ -8,7 +8,7 @@ try:
     interface.loadMaps()
     interface.displayMaps()
     interface.setUp()
-
+    interface.display()
     winners = []
 
     while winners == []:

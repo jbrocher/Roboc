@@ -43,16 +43,16 @@ class Game:
             move += '1'
 
         if move[0] == "n":
-            i -=  move[1]
+            i -=  int(move[1])
             pos = False
         elif move[0] == "s":
-            i += move[1]
+            i += int(move[1])
         elif move[0] == "o":
-            j -= move[1]
+            j -= int(move[1])
             pos = False
             depl_vert = False
         else:
-            j += move[1]
+            j += int(move[1])
             depl_vert = False
         return(i,j)
 
@@ -91,6 +91,10 @@ class Game:
         if re.search('^[n,s,o,e,q,N,S,O,E][0-9]*$', move) != None:
             i,j = self.newPos(i,j,move)
             valid = self.validMove(i,j)
+            if valid:
+
+                self.i = i
+                self.j = j
 
         elif re.search('^[m,p,M,P][n,s,o,e,q,N,S,O,E]$', move) != None:
 
@@ -108,10 +112,7 @@ class Game:
                     self.map.modifyMap(i,j,'.')
 
 
-        if valid:
 
-            self.i = i
-            self.j = j
         return valid
 
 

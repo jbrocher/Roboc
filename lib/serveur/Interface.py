@@ -93,7 +93,7 @@ class Interface:
                 commands = self.client_handler.receiveCommand([client_id])
                 print("processing command from {}".format(client_id))
 
-                if self.games[client_id].moveProcess( {"direction" : commands[client_id][0], "distance" : int(commands[client_id][1:])}):
+                if self.games[client_id].moveProcess( commands[client_id]):
 
                     invalid = False
                     if self.games[client_id].checkWin():
@@ -108,15 +108,14 @@ class Interface:
 
     def endGame(self,winners):
         messages = {}
-        end = {}
+
         for client_id in self.client_ids:
             if client_id in winners:
                 messages[client_id] = "Felicitations, vous etes le gagnant!"
             else:
-                messages[client_id] = "Perdu! reessayez une autre fois!"
-            end[client_id] = "end"
+                messages[client_id] = "Desole c'est perdu!"
         self.client_handler.clientsUpdate(messages = messages)
-        self.client_handler.clientsUpdate(messages = end)
+        self.client_handler.clientsUpdate(message = "end")
         self.client_handler.close()
     def display(self):
         print("displaying game")

@@ -110,7 +110,7 @@ class ClientsHandler:
                                 msg_recu = client.recv(1024)
                                 msg_recu_d = msg_recu.decode()
 
-                                if re.search('^[n,s,o,e,q,N,S,O,E][0-9]* | [m,p,M,P][n,s,o,e,q,N,S,O,E]$', msg_recu_d) != None:
+                                if re.search('^[n,s,o,e,q,N,S,O,E][0-9]*|[m,p,M,P][n,s,o,e,q,N,S,O,E]$', msg_recu_d) != None:
 
                                     if len(msg_recu_d) == 1:
                                         msg_recu_d += "1"
