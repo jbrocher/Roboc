@@ -16,7 +16,7 @@ class Interface:
 
     tour = 1
     def __init__(self):
-        self.games = {}
+
         self.maps = []
         self.client_ids=[]
         self.selected_map = Map()
@@ -57,7 +57,7 @@ class Interface:
         self.client_ids = self.client_handler.getClientsIds()
         for client_id in self.client_ids:
 
-            self.games[client_id] = Game(self.selected_map)
+            self.game = Game(self.client_ids,self.selected_map)
 
 
 
@@ -93,10 +93,10 @@ class Interface:
                 commands = self.client_handler.receiveCommand([client_id])
                 print("processing command from {}".format(client_id))
 
-                if self.games[client_id].moveProcess( commands[client_id]):
+                if self.game.moveProcess( commands[client_id], client_id):
 
                     invalid = False
-                    if self.games[client_id].checkWin():
+                    if self.game[client_id].checkWin(client_id):
                         winners.append(client_id)
                 else:
                     self.client_handler.clientsUpdate(messages = {client_id: "mouvement invalide entrez une autre commande"})
