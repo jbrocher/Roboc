@@ -36,6 +36,47 @@ class Game:
         self.i = position["i"]
         self.j = position["j"]
 
+
+
+    def newPos(self,i,j,move):
+        if len(move) == 1 :
+            move += '1'
+
+        if move[0] == "n":
+            i -=  move[1]
+            pos = False
+        elif move[0] == "s":
+            i += move[1]
+        elif move[0] == "o":
+            j -= move[1]
+            pos = False
+            depl_vert = False
+        else:
+            j += move[1]
+            depl_vert = False
+        return(i,j)
+
+    def validMove(self, i,j):
+        valid = True
+        if not (0<= i and i <self.map.i_max) or not(0<= j and j < self.map.j_max):
+            valid = False
+        elif i != self.i:
+            if i - self.i >0:
+                for l in range(self.i, i+1):
+                    if self.map.map_data[l][j] == "O": valid = False
+            else:
+                for l in range(i, self.i):
+                    if self.map.map_data[l][j] == "O": valid = False
+        else:
+            if j - self.j > 0:
+                for l in range(self.j, j+1):
+                    if self.map.map_data[i][l] == "O": valid = False
+            else:
+                for l in range(j, self.j):
+
+                    if self.map.map_data[i][l] == "O": valid = False
+        return valid
+
     def moveProcess(self, move):
         """Renvoi True si le mouvement est valide, False sinon. Si le mouvement,
         est valide, modifie la position du joueur en conséquence. Un mouvement
@@ -43,42 +84,29 @@ class Game:
         la trajectoire"""
 
         valid = True
-        i= self.i
-        j= self.j
-        depl_vert= True
-        pos = True
 
-        if move["direction"] == "n":
-            i -=  move["distance"]
-            pos = False
-        elif move["direction"] == "s":
-            i += move["distance"]
-        elif move["direction"] == "o":
-            j -= move["distance"]
-            pos = False
-            depl_vert = False
-        else:
-            j += move["distance"]
-            depl_vert = False
+        i = self.i
+        j = self.j
 
+        if re.search('^[n,s,o,e,q,N,S,O,E][0-9]*$', move) != None:
+            i,j = self.newPos(i,j,move)
+            valid = self.validMove(i,j)
 
-        if not (0<= i and i <self.map.i_max) or not(0<= j and j < self.map.j_max):
-            valid = False
-        elif depl_vert:
-            if pos:
-                for l in range(self.i, i+1):
-                    if self.map.map_data[l][j] == "O": valid = False
+        elif re.search('^[m,p,M,P][n,s,o,e,q,N,S,O,E]$', move) != None:
+
+            i,j = self.newPos(i,j,move[1])
+            if move[0] == 'm' or move[0] == 'M':
+                if self.map.map_data[i][j] != '.':
+                    valid = False
+                else:
+                    self.map.modifyMap(i,j,'O')
             else:
-                for l in range(i, self.i):
-                    if self.map.map_data[l][j] == "O": valid = False
-        else:
-            if pos:
-                for l in range(self.j, j+1):
-                    if self.map.map_data[i][l] == "O": valid = False
-            else:
-                for l in range(j, self.j):
 
-                    if self.map.map_data[i][l] == "O": valid = False
+                if self.map.map_data[i][j] != 'O':
+                    valid = False
+                else:
+                    self.map.modifyMap(i,j,'.')
+
 
         if valid:
 
