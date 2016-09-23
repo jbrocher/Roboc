@@ -5,6 +5,7 @@ import pickle
 from lib.serveur.Game import Game
 from lib.serveur.Map import Map
 from lib.serveur.ClientsHandler import ClientsHandler
+import time
 import re
 import socket
 import select
@@ -58,6 +59,7 @@ class Interface:
         for client_id in self.client_ids:
 
             self.game = Game(self.client_ids,self.selected_map)
+        self.client_handler.clientsUpdate(message = "\n la partie va commencer\ncarte: {}\nnombre de joueurs: \namusez vous bien!".format(self.selected_map.map_name, str(len(self.client_ids))))
 
 
 
@@ -79,7 +81,7 @@ class Interface:
         """ gère les commandes de l'utilisateurs, utilise l'objet Game pour
         analyser les directions"""
 
-        self.client_handler.clientsUpdate(message = "\ndebut du tour {}".format(Interface.tour))
+        self.client_handler.clientsUpdate(message = "\ndebut du tour {}\n veuillez attendre votre tour".format(Interface.tour))
         winners = []
 
         commands = {}
@@ -100,7 +102,8 @@ class Interface:
                         winners.append(client_id)
                 else:
                     self.client_handler.clientsUpdate(messages = {client_id: "mouvement invalide entrez une autre commande"})
-                print(" command from {} processed".format(client_id))
+            print(" command from {} processed".format(client_id))
+            self.client_handler.clientsUpdate(message="\njoueur {} a joué".format(client_id))
             self.display()
         Interface.tour +=1
         return winners
@@ -115,6 +118,7 @@ class Interface:
                 messages[client_id] = "1"
             else:
                 messages[client_id] = "0"
+        time.sleep(0.5)
         self.client_handler.clientsUpdate(messages = messages)
 
         self.client_handler.close()

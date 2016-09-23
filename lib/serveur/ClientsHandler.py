@@ -20,7 +20,9 @@ class ClientsHandler:
 
 
         self.serverConnection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.serverConnection.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 12800)
         self.serverConnection.bind(("",port))
+
         self.serverConnection.listen(5)
 
 
@@ -39,7 +41,7 @@ class ClientsHandler:
         return result
 
     def generateClientId(self,client):
-        client_id  = str(client.getpeername()[0]) + str(client.getpeername()[1])
+        client_id  = str(client.getpeername()[0]) +'.'+ str(client.getpeername()[1])
         return client_id
 
     def setUpConnect(self):
@@ -63,10 +65,8 @@ class ClientsHandler:
                     connexion_avec_client, infos_connexion = connexion.accept()
                     client_id  = self.generateClientId(connexion_avec_client)
                     self.clients[client_id] = connexion_avec_client
-
-
                     user_count += 1
-
+                    self.clientsUpdate(message = "\nbienvenue joueur{}\nen attente d'autres joueurs, appuyez sur 'c' pour commencer".format(str(user_count)))
                 try:
                     clients_a_lire, wlist, xlist = select.select(self.clients.values(),[], [], 0.05)
                 except select.error:
@@ -148,14 +148,14 @@ class ClientsHandler:
     def clientsUpdate(self, message=None, messages=None):
 
         if message != None and messages == None:
-            print("sending {}".format(message))
+            print(r"sending {} to all clients".format(message))
 
             for client_id in self.clients:
                 to_send = message.encode()
                 self.clients[client_id].send(to_send)
                 print("{} sent to {}".format(message, client_id))
         elif messages != None and message == None:
-            print("sending {}".format(messages))
+            print(r"sending {}".format(messages))
             for client_id in messages:
 
                 to_send = messages[client_id].encode()
@@ -166,7 +166,13 @@ class ClientsHandler:
     def close(self):
 
         for client in self.clients.values():
+            fin = b""
+            while fin != b"end":
+                fin = client.recv(1024)
+
             print("closing {}".format(self.generateClientId(client)))
             client.close()
 
+
         self.serverConnection.close()
+        print("server connection closed")

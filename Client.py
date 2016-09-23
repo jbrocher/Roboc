@@ -4,7 +4,13 @@ from lib.client.Send import Send
 from lib.client.ClientInterface import ClientInterface
 import socket
 
+
 try:
+    with open("welcome_screen","r") as welcome_screen_file:
+        welcome = welcome_screen_file.read()
+
+    print(welcome)
+    input("appuyez sur n'importe quel touche pour commencer")
     hote = "localhost"
     port = 12800
     end = ""
@@ -21,10 +27,9 @@ try:
 
     send_thread.join()
     receive_thread.join()
+    my_Socket.send(b"end")
 
 
-
-except Exception as exception:
-
-
-    print(exception)
+except:
+    ClientInterface.cont = False
+    print("oups, un problème est survenu, aurevoir!")

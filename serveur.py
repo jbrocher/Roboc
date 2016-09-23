@@ -16,6 +16,6 @@ try:
         winners = interface.processCommands()
         interface.display()
     interface.endGame(winners)
-except Exception as exception:
+except:
     interface.endGame([])
-    print(exception)
+    
