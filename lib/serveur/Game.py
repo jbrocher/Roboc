@@ -110,7 +110,9 @@ class Game:
         elif re.search('^[m,p,M,P][n,s,o,e,q,N,S,O,E]$', move) != None:
 
             i,j = self.newPos(i_client, j_client, move[1])
-            if move[0] == 'm' or move[0] == 'M':
+            if (i,j) in self.players.values():
+                valid = False
+            elif move[0] == 'm' or move[0] == 'M':
                 if self.map.map_data[i][j] != '.':
                     valid = False
                 else:
