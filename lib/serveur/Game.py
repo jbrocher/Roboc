@@ -71,6 +71,8 @@ class Game:
         valid = True
         if not (0<= i and i <self.map.i_max) or not(0<= j and j < self.map.j_max):
             valid = False
+        elif (i,j) in self.players.values():
+            valid = False
         elif i != i_init:
             if i - i_init >0:
                 for l in range(i_init, i+1):
@@ -132,7 +134,10 @@ class Game:
         i,j = self.players[client_id]
         return ( self.map.map_data[i][j] == 'U')
 
-    def display(self,client_ids,client_id):
+    def display(self):
         """renvoi le string représentant la carte"""
-        i,j  = self.players[client_id]
-        return self.map.serializeMap(client_ids,i, j)
+        payload = {}
+        for client_id in self.players:
+            i,j = self.players[client_id]
+            payload[client_id] = self.map.serializeMap(self.players.values(),i, j)
+        return payload

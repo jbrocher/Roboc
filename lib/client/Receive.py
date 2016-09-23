@@ -15,18 +15,22 @@ class Receive(ClientInterface):
 
 
 
+
     def run(self):
 
 
-        msg_recu_d = ""
-        while msg_recu_d != "end":
-
-
+        while ClientInterface.cont:
 
             msg_recu = self.client_connexion.recv(1024)
+            ClientInterface.msg_recu = msg_recu.decode()
+            if ClientInterface.msg_recu == "0" or ClientInterface.msg_recu == "1":
+                ClientInterface.cont = False
+                if ClientInterface.msg_recu == "1":
+                    print("félicitations vous avez gagné!")
+                else:
+                    print("désolé, c'est perdu")
+                print("\nfin de la partie, deconnexion en cours\n appuyez sur n'importe quelle touche pour fermer")
 
-            msg_recu_d = msg_recu.decode()
-            if msg_recu != "":
-                print("message reçu:\n"+msg_recu_d)
-        ClientInterface.end_threads = True
-        return 0
+            else:
+
+                print("\n"+ClientInterface.msg_recu)

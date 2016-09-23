@@ -18,4 +18,4 @@ try:
     interface.endGame(winners)
 except Exception as exception:
     interface.endGame([])
-    print(exception.message())
+    print(exception)

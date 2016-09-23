@@ -146,14 +146,16 @@ class ClientsHandler:
 
 
     def clientsUpdate(self, message=None, messages=None):
-        print("sending {}".format(messages))
-        if message != None and messages == None:
-            for client_id in self.clients:
 
+        if message != None and messages == None:
+            print("sending {}".format(message))
+
+            for client_id in self.clients:
                 to_send = message.encode()
                 self.clients[client_id].send(to_send)
+                print("{} sent to {}".format(message, client_id))
         elif messages != None and message == None:
-
+            print("sending {}".format(messages))
             for client_id in messages:
 
                 to_send = messages[client_id].encode()
@@ -162,6 +164,9 @@ class ClientsHandler:
             raise ValueError
 
     def close(self):
+
         for client in self.clients.values():
+            print("closing {}".format(self.generateClientId(client)))
             client.close()
+
         self.serverConnection.close()

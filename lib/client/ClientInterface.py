@@ -3,7 +3,9 @@ from threading import Thread
 
 class ClientInterface(Thread):
 
-    end_threads = False
+
+    cont = True
+    msg_recu =""
     def __init__(self):
 
         Thread.__init__(self)

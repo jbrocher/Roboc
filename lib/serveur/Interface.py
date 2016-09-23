@@ -96,7 +96,7 @@ class Interface:
                 if self.game.moveProcess( commands[client_id], client_id):
 
                     invalid = False
-                    if self.game[client_id].checkWin(client_id):
+                    if self.game.checkWin(client_id):
                         winners.append(client_id)
                 else:
                     self.client_handler.clientsUpdate(messages = {client_id: "mouvement invalide entrez une autre commande"})
@@ -108,26 +108,20 @@ class Interface:
 
     def endGame(self,winners):
         messages = {}
-
+        print("les gagnants sont:")
+        print(winners)
         for client_id in self.client_ids:
             if client_id in winners:
-                messages[client_id] = "Felicitations, vous etes le gagnant!"
+                messages[client_id] = "1"
             else:
-                messages[client_id] = "Desole c'est perdu!"
+                messages[client_id] = "0"
         self.client_handler.clientsUpdate(messages = messages)
-        self.client_handler.clientsUpdate(message = "end")
+
         self.client_handler.close()
+
     def display(self):
         print("displaying game")
         clients_positions = []
-        maps_to_send={}
-        for game in self.games.values():
-            current_client_position = game.getPosition()
-            clients_positions.append((current_client_position["i"], current_client_position["j"]))
-
-        for client_id in self.games:
-
-            current_client_map = self.games[client_id].display(clients_positions)
-            maps_to_send[client_id] = current_client_map
+        maps_to_send= self.game.display()
 
         self.client_handler.clientsUpdate(messages = maps_to_send)

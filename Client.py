@@ -1,6 +1,7 @@
 #--encoding=utf-8--
 from lib.client.Receive import Receive
 from lib.client.Send import Send
+from lib.client.ClientInterface import ClientInterface
 import socket
 
 try:
@@ -21,9 +22,9 @@ try:
     send_thread.join()
     receive_thread.join()
 
-    print("fin de la partie")
+
+
 except Exception as exception:
-    send_thread.join()
-    receive_thread.join()
-    my_Socket.close()
-    print(exception.message())
+
+
+    print(exception)

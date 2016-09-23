@@ -4,6 +4,7 @@
 from threading import Thread
 import socket
 from lib.client.ClientInterface import ClientInterface
+
 class Send(ClientInterface):
 
     def __init__(self,client_connexion):
@@ -19,9 +20,10 @@ class Send(ClientInterface):
     def run(self):
 
 
-        while not ClientInterface.end_threads:
+        while ClientInterface.cont:
 
-            user_input = input(">")
+            user_input = input()
             user_input_e = user_input.encode()
             self.client_connexion.send(user_input_e)
-        return 0
+
+    
