@@ -79,7 +79,7 @@ class Interface:
         """ gère les commandes de l'utilisateurs, utilise l'objet Game pour
         analyser les directions"""
 
-        self.client_handler.clientsUpdate(message = "debut du tour {}".format(Interface.tour))
+        self.client_handler.clientsUpdate(message = "\ndebut du tour {}".format(Interface.tour))
         winners = []
 
         commands = {}
@@ -87,7 +87,7 @@ class Interface:
 
         for client_id in clients_to_process:
             invalid = True
-            self.client_handler.clientsUpdate(messages = {client_id: "a vous de jouer! entrez votre commande"})
+            self.client_handler.clientsUpdate(messages = {client_id: "\na vous de jouer! entrez votre commande"})
             while invalid:
 
                 commands = self.client_handler.receiveCommand([client_id])

@@ -75,19 +75,19 @@ class Game:
             valid = False
         elif i != i_init:
             if i - i_init >0:
-                for l in range(i_init, i+1):
-                    if self.map.map_data[l][j] == "O": valid = False
+                for l in range(i_init +1, i+1):
+                    if self.map.map_data[l][j] == "O" or (l,j) in self.players.values(): valid = False
             else:
-                for l in range(i, i_init):
-                    if self.map.map_data[l][j] == "O": valid = False
+                for l in range(i, i_init-1):
+                    if self.map.map_data[l][j] == "O" or (l,j) in self.players.values(): valid = False
         else:
             if j - j_init > 0:
-                for l in range(j_init, j+1):
-                    if self.map.map_data[i][l] == "O": valid = False
+                for l in range(j_init+1, j+1):
+                    if self.map.map_data[i][l] == "O" or (i,l) in self.players.values(): valid = False
             else:
-                for l in range(j, j_init):
+                for l in range(j, j_init-1):
 
-                    if self.map.map_data[i][l] == "O": valid = False
+                    if self.map.map_data[i][l] == "O" or (i,l) in self.players.values(): valid = False
         return valid
 
     def moveProcess(self, move, client_id):
