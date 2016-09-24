@@ -42,7 +42,7 @@ class Game:
         player_id = 0
         for player in self.players:
 
-            if player.clients_id == client_id:
+            if player.client_id == client_id:
 
                 player_id = player.player_id
         return player_id
@@ -60,14 +60,20 @@ class Game:
         result = {}
         for player in self.players:
 
-            result[player.clients_id] = player.position
+            result[player.client_id] = player.position
+        return result
+    def setPosition(self,position,client_id):
 
-    def setPosition(self,positions):
+        """ donne la valeur position à l'attrobut position du player
+            correspondant au client_id """
 
-        """ prend un dictionnaire en argument, et modifie
-         la position du joueur"""
+        for player in self.players:
 
-        self.players = positions
+            if player.client_id == client_id:
+
+                player.position = position
+
+
 
 
 
@@ -141,7 +147,7 @@ class Game:
             valid = self.validMove(i_client, j_client,i,j)
             if valid:
 
-                self.players[client_id] = (i,j)
+                self.setPosition((i,j),client_id)
 
         #si c'est une modification de la Map
         elif re.search('^[m,p,M,P][n,s,o,e,q,N,S,O,E]$', move) != None:
@@ -172,13 +178,14 @@ class Game:
     def checkWin(self,client_id):
         """ renvoi True si le joueur a gagné"""
 
-        i,j = self.getDictPositions[client_id]
+        i,j = self.getDictPositions()[client_id]
         return ( self.map.map_data[i][j] == 'U')
 
     def display(self):
         """renvoi le string représentant la carte"""
         payload = {}
-        for client_id in self.players:
-            i,j = self.players[client_id]
+        positions_dict = self.getDictPositions()
+        for client_id in positions_dict:
+            i,j = positions_dict[client_id]
             payload[client_id] = self.map.serializeMap(self.getPosition(),i, j)
         return payload

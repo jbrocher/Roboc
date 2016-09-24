@@ -29,7 +29,7 @@ class Receive(ClientInterface):
                     print("félicitations vous avez gagné!")
                 else:
                     print("désolé, c'est perdu")
-                print("\nfin de la partie, deconnexion en cours\n appuyez sur n'importe quelle touche pour fermer")
+                print("\nfin de la partie, deconnexion en cours\nappuyez sur n'importe quelle touche pour fermer")
 
             else:
 

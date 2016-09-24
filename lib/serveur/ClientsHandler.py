@@ -214,14 +214,15 @@ class ClientsHandler:
     def clientsUpdate(self, message=None, messages=None):
         """ arguments:
                 message: chaine de charactère
-                messages: dictionnaire \{client_id : message\}
+                messages: dictionnaire client_id : message
 
             return: None
             envoie l'arguement message à tous les clients, ou des messages
             différents répertoriés dans 'messages' """
 
         if message != None and messages == None:
-            print(r"sending {} to all clients".format(message))
+
+            print("sending {} to all clients".format(repr(message)))
 
             for client_id in self.clients:
                 to_send = message.encode()
