@@ -6,8 +6,7 @@ class Map:
 
     def __init__(self,map_name = None):
         """ lit le fichier map et construit l'objet Map correspondant"""
-        self.i_init = 0
-        self.j_init=0
+
         self.i_max = 0
         self.j_max = 0
         self.map_data = ()
@@ -31,9 +30,8 @@ class Map:
                             if c == 'X':
 
 
-                                clean_line = clean_line + "_"
-                                self.i_init = i
-                                self.j_init = j
+                                clean_line = clean_line + " "
+
                             else:
                                 clean_line = clean_line + c
                         j = j+1

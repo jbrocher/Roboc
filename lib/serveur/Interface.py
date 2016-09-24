@@ -59,7 +59,7 @@ class Interface:
         for client_id in self.client_ids:
 
             self.game = Game(self.client_ids,self.selected_map)
-        self.client_handler.clientsUpdate(message = "\n la partie va commencer\ncarte: {}\nnombre de joueurs: \namusez vous bien!".format(self.selected_map.map_name, str(len(self.client_ids))))
+        self.client_handler.clientsUpdate(message = "\n la partie va commencer\ncarte: {}\nnombre de joueurs:{} \namusez vous bien!".format(self.selected_map.map_name, str(len(self.client_ids))))
 
 
 
@@ -103,8 +103,9 @@ class Interface:
                 else:
                     self.client_handler.clientsUpdate(messages = {client_id: "mouvement invalide entrez une autre commande"})
             print(" command from {} processed".format(client_id))
-            self.client_handler.clientsUpdate(message="\njoueur {} a joué".format(client_id))
+
             self.display()
+            self.client_handler.clientsUpdate(message = "\njoueur {} a joue, en attente des autres joueurs".format(client_id))
         Interface.tour +=1
         return winners
 
@@ -118,7 +119,7 @@ class Interface:
                 messages[client_id] = "1"
             else:
                 messages[client_id] = "0"
-        time.sleep(0.5)
+        time.sleep(0.05)
         self.client_handler.clientsUpdate(messages = messages)
 
         self.client_handler.close()

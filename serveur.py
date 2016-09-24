@@ -14,8 +14,7 @@ try:
     while winners == []:
 
         winners = interface.processCommands()
-        interface.display()
+        
     interface.endGame(winners)
 except:
     interface.endGame([])
-    

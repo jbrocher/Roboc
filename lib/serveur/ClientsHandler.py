@@ -66,7 +66,7 @@ class ClientsHandler:
                     client_id  = self.generateClientId(connexion_avec_client)
                     self.clients[client_id] = connexion_avec_client
                     user_count += 1
-                    self.clientsUpdate(message = "\nbienvenue joueur{}\nen attente d'autres joueurs, appuyez sur 'c' pour commencer".format(str(user_count)))
+                    self.clientsUpdate(messages ={client_id : "\nbienvenue joueur{}\nen attente d'autres joueurs, appuyez sur 'c' pour commencer".format(str(user_count))})
                 try:
                     clients_a_lire, wlist, xlist = select.select(self.clients.values(),[], [], 0.05)
                 except select.error:
@@ -82,6 +82,10 @@ class ClientsHandler:
 
                                 wait_user = False
                                 print("connection set up")
+                            else:
+
+                                client.send(b"invalid input")
+
                         except ValueError:
                             pass
 
@@ -110,7 +114,7 @@ class ClientsHandler:
                                 msg_recu = client.recv(1024)
                                 msg_recu_d = msg_recu.decode()
 
-                                if re.search('^[n,s,o,e,q,N,S,O,E][0-9]*|[m,p,M,P][n,s,o,e,q,N,S,O,E]$', msg_recu_d) != None:
+                                if re.search('^[n,s,o,e,q,N,S,O,E][0-9]*$|^[m,p,M,P][n,s,o,e,q,N,S,O,E]$', msg_recu_d) != None:
 
                                     if len(msg_recu_d) == 1:
                                         msg_recu_d += "1"
@@ -153,7 +157,7 @@ class ClientsHandler:
             for client_id in self.clients:
                 to_send = message.encode()
                 self.clients[client_id].send(to_send)
-                print("{} sent to {}".format(message, client_id))
+
         elif messages != None and message == None:
             print(r"sending {}".format(messages))
             for client_id in messages:
