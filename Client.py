@@ -32,4 +32,6 @@ try:
 
 except:
     ClientInterface.cont = False
+    send_thread.join()
+    receive_thread.join()
     print("oups, un problème est survenu, aurevoir!")
