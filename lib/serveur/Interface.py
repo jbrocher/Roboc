@@ -12,7 +12,9 @@ import select
 
 class Interface:
 
-    """ Cette class sert d'interface entre le joueur et le jeu. Elle gère les entrées/sorties ainsi que la sauvegarde et le chargement des cartes"""
+    """ La class Interface gère l'interface entre les clients et la partie.
+    Elle possède donc un objet Game, et un Objet ClientHandler.
+    l'interface conait l'ensemble des clients et la map actuelle"""
 
 
     tour = 1
@@ -44,15 +46,21 @@ class Interface:
 
 
     def setUp(self):
-        """gère le choix de la map et initilise le "Game"""
+        """
+            Selection de la map côté serveur
+            demande au client Handler de mettre en place les connections et
+            initialise l'objet Game en conséquence
+        """
 
+        #séléction de la map
         maps_number = len(self.maps)
         choice = int(self.checkUserInput('^[0-{}]$'.format(maps_number), "please type the number of the map you'd like to play: ", "invalid input"))
-
         self.selected_map = self.maps[choice]
 
-
+        #choix du maximum de connections autorisées
         max_clients = int(self.checkUserInput('^[0-9]*$', "please type the max number of players: ", "invalid input"))
+
+        #Initialisation du clientHandler, et setup des connections
         self.client_handler = ClientsHandler(max_clients = max_clients)
         self.client_handler.setUpConnect()
         self.client_ids = self.client_handler.getClientsIds()
@@ -105,7 +113,7 @@ class Interface:
             print(" command from {} processed".format(client_id))
 
             self.display()
-            self.client_handler.clientsUpdate(message = "\njoueur {} a joue, en attente des autres joueurs".format(client_id))
+            self.client_handler.clientsUpdate(message = "\njoueur {} a joue, en attente des autres joueurs".format(self.game.getPlayerId(client_id)))
         Interface.tour +=1
         return winners
 
