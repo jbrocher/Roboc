@@ -113,6 +113,7 @@ class Interface:
             print(" command from {} processed".format(client_id))
 
             self.display()
+            self.client_handler.clientsUpdate(messages = {client_id: "\ncommande traitée joueur {}!".format(self.game.getPlayerId(client_id))})
             self.client_handler.clientsUpdate(message = "\njoueur {} a joue, en attente des autres joueurs".format(self.game.getPlayerId(client_id)))
         Interface.tour +=1
         return winners

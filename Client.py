@@ -10,7 +10,7 @@ try:
         welcome = welcome_screen_file.read()
 
     print(welcome)
-    input("appuyez sur n'importe quel touche pour commencer")
+    input("appuyez sur enter commencer")
     hote = "localhost"
     port = 12800
     end = ""

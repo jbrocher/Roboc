@@ -88,16 +88,16 @@ class Game:
             move += '1'
 
         if move[0] == "n":
-            i -=  int(move[1])
+            i -=  int(move[1:])
             pos = False
         elif move[0] == "s":
-            i += int(move[1])
+            i += int(move[1:])
         elif move[0] == "o":
-            j -= int(move[1])
+            j -= int(move[1:])
             pos = False
             depl_vert = False
         else:
-            j += int(move[1])
+            j += int(move[1:])
             depl_vert = False
         return(i,j)
 
