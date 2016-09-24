@@ -75,3 +75,31 @@ class TestGame(unittest.TestCase):
         winner = self.game_test_1.checkWin('127.0.0.1.4987')
         self.assertEqual(not_winner,False)
         self.assertEqual(winner,True)
+
+    def test_display(self):
+
+        self.game_test_1.players[0].position=(1,1)
+        self.game_test_1.players[1].position=(2,1)
+        self.game_test_1.players[2].position=(1,4)
+        self.game_test_1.players[3].position=(3,3)
+
+        playload = self.game_test_1.display()
+
+        carte_1 = open('tests/serveur/maps_de_test/carte_de_test_1.txt')
+        carte_2 = open('tests/serveur/maps_de_test/carte_de_test_2.txt')
+        carte_3 = open('tests/serveur/maps_de_test/carte_de_test_3.txt')
+        carte_4 = open('tests/serveur/maps_de_test/carte_de_test_4.txt')
+
+        display_1 = carte_1.read()
+        display_2 = carte_2.read()
+        display_3 = carte_3.read()
+        display_4 = carte_4.read()
+
+        carte_1.close()
+        carte_2.close()
+        carte_3.close()
+        carte_4.close()
+
+
+        expected_result = {'127.0.0.1.4986':display_1,'127.0.0.1.4987':display_2,'127.0.0.1.4988':display_3,'127.0.0.1.4989':display_4}
+        self.assertEqual(expected_result,playload)

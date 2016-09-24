@@ -27,6 +27,6 @@ class TestMap(unittest.TestCase):
 
     def test_serializeMap(self):
         serialized_map = self.map_test_1.serializeMap(self.client_positions,1,1)
-        with open('tests/serveur/maps_de_test/carte_test_1.txt') as testFile:
+        with open('tests/serveur/maps_de_test/carte_de_test_1.txt') as testFile:
             expected_result = testFile.read()
         self.assertEqual(serialized_map,expected_result)
