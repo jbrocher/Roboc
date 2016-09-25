@@ -54,7 +54,7 @@ class Interface:
 
         #séléction de la map
         maps_number = len(self.maps)
-        choice = int(self.checkUserInput('^[0-{}]$'.format(maps_number), "please type the number of the map you'd like to play: ", "invalid input"))
+        choice = int(self.checkUserInput('^[0-{}]$'.format(maps_number-1), "please type the number of the map you'd like to play: ", "invalid input"))
         self.selected_map = self.maps[choice]
 
         #choix du maximum de connections autorisées

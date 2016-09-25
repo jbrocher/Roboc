@@ -10,11 +10,10 @@ try:
         welcome = welcome_screen_file.read()
 
     print(welcome)
-    input("appuyez sur enter commencer")
+    input("appuyez sur enter pour commencer")
     hote = "localhost"
     port = 12800
     end = ""
-    my_Socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     my_Socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     my_Socket.connect((hote, port))
     print("Connexion établie avec le serveur sur le port {}".format(port))
